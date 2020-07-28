@@ -9,7 +9,7 @@ var btnReversa;
 var btnPlay;
 var btnAnimarImg;
 
-window.onload = function() {
+window.onload = function () {
     btnAnimar = document.getElementById("btnAnimar");
     btnReiniciar = document.getElementById("btnReiniciar");
     btnPausar = document.getElementById("btnPausar");
@@ -25,28 +25,39 @@ function animar() {
     var img2 = document.getElementById("img2");
     var img3 = document.getElementById("img3");
 
-    animacion = new TimelineMax();
+    animacion = new TimelineMax({
+        delay: 2,
+        paused: false,
+        repeat: 2,
+        repeatDelay: 1,
+        yoyo: true,
+        onComplete: finish
+    });
 
     animacion.to(logo, 2, {
-        left: 400
-    })
-    .staggerTo([img1, img2, img3], 2, {
-        left: 600
-    }, 0.5);
+            left: 400
+        })
+        .staggerTo([img1, img2, img3], 2, {
+            left: 600
+        }, 0.5);
 
-    btnReiniciar.onclick = function() {
+    btnReiniciar.onclick = function () {
         animacion.restart();
     }
 
-     btnPausar.onclick = function() {
+    btnPausar.onclick = function () {
         animacion.pause();
     }
 
-    btnReversa.onclick = function() {
+    btnReversa.onclick = function () {
         animacion.reverse();
     }
 
-    btnPlay.onclick = function() {
+    btnPlay.onclick = function () {
         animacion.play();
     }
+}
+
+function finish() {
+    console.log("animation finished");
 }

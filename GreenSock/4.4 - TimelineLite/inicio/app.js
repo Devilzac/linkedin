@@ -9,7 +9,7 @@ var btnReversa;
 var btnPlay;
 var btnAnimarImg;
 
-window.onload = function() {
+window.onload = function () {
     btnAnimar = document.getElementById("btnAnimar");
     btnReiniciar = document.getElementById("btnReiniciar");
     btnPausar = document.getElementById("btnPausar");
@@ -29,20 +29,37 @@ function animar() {
 
     animacion = new TimelineLite();
 
-    
-    btnReiniciar.onclick = function() {
+    animacion.to(logo, 2, {
+        left: 400,
+        backgroundColor: "black",
+        borderRadius: 50,
+        ease: Back.easeInOut,
+        repeat: 2,
+        repeatDelay: 0,
+        yoyo: true
+    }).staggerTo([img1, img2, img3], 3, {
+        left: 400,
+        backgroundColor: "black",
+        borderRadius: 50,
+        ease: Back.easeInOut,
+        repeat: 2,
+        repeatDelay: 0,
+        yoyo: true
+    }, 0.5);
+
+    btnReiniciar.onclick = function () {
         animacion.restart();
     }
 
-     btnPausar.onclick = function() {
+    btnPausar.onclick = function () {
         animacion.pause();
     }
 
-    btnReversa.onclick = function() {
+    btnReversa.onclick = function () {
         animacion.reverse();
     }
 
-    btnPlay.onclick = function() {
+    btnPlay.onclick = function () {
         animacion.play();
     }
 }

@@ -19,10 +19,18 @@ function animar() {
         left: "100%",
         backgroundColor: "#000",
         borderRadius: 50,
-        ease: Elastic.easeIn
+        ease: Elastic.easeIn,
+        onComplete: animacionTerminada,
+        onCompleteParams: ["animacion terminada", "parametro 2"]
     });
 }
 
 function reiniciar() {
     animacion.restart();
+}
+
+function animacionTerminada(dato1, dato2) {
+
+    console.log(dato1);
+    console.log(dato2);
 }

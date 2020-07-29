@@ -5,7 +5,7 @@ var canvasHeight;
 var canvasTop;
 var canvasLeft;
 
-window.onload = function() {
+window.onload = function () {
     world = createWorld();
     ctx = $('canvas').getContext('2d');
     var myCanvas = $('canvas');
@@ -15,6 +15,14 @@ window.onload = function() {
     canvasLeft = parseInt(myCanvas.style.left);
 
     generarMundo();
+
+    addEventListener('click', function (e) {
+        if (Math.random() > 0.5) {
+            createBall(world, e.pageX, e.pageY);
+        } else {
+            createBox(world, e.pageX, e.pageY, 10, 10, false);
+        }
+    });
 
     step();
 }
@@ -26,6 +34,8 @@ function createWorld() {
     var gravity = new b2Vec2(0, 300);
     var doSleep = true;
     world = new b2World(worldAABB, gravity, doSleep);
+
+    createGround(world);
 
     return world;
 }
@@ -40,9 +50,22 @@ function step(cnt) {
     setTimeout('step(' + (cnt || 0) + ')', 10);
 }
 
+function createGround(world) {
+    var groundSd = new b2BoxDef();
+    groundSd.extents.Set(400, 30);
+
+    var groundBd = new b2BodyDef();
+    groundBd.AddShape(groundSd);
+    groundBd.position.Set(400, 470);
+
+    return world.CreateBody(groundBd);
+}
+
 function createBox(world, x, y, width, height, fixed) {
     var boxSd = new b2BoxDef();
-    boxSd.density = 1.0;
+    if (!fixed) {
+        boxSd.density = 1.0;
+    }
     boxSd.restitution = 0.0;
     boxSd.friction = 1.0;
     boxSd.extents.Set(width, height);
@@ -71,8 +94,8 @@ function createBall(world, x, y) {
 function generarMundo() {
 
     createBall(world, 300, 120);
-    createBox(world, 300, 50, 10, 20);
-    createBox(world, 500, 50, 30, 5);
+    createBox(world, 300, 50, 10, 20, true);
+    createBox(world, 500, 50, 30, 5, true);
 
     createJoint();
 }

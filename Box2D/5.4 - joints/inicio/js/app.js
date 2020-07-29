@@ -5,7 +5,7 @@ var canvasHeight;
 var canvasTop;
 var canvasLeft;
 
-window.onload = function(){
+window.onload = function () {
     world = createWorld();
     ctx = $('canvas').getContext('2d');
     var myCanvas = $('canvas');
@@ -31,7 +31,7 @@ function createWorld() {
 
 function step(cnt) {
     var stepping = false;
-    var timeStep = 1.0/60;
+    var timeStep = 1.0 / 60;
     var iteration = 1;
     world.Step(timeStep, iteration);
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -48,7 +48,7 @@ function createBox(world, x, y, width, height) {
 
     var boxBd = new b2BodyDef();
     boxBd.AddShape(boxSd);
-    boxBd.position.Set(x,y);
+    boxBd.position.Set(x, y);
     return world.CreateBody(boxBd);
 }
 
@@ -61,15 +61,26 @@ function createBall(world, x, y) {
 
     var ballBd = new b2BodyDef();
     ballBd.AddShape(ballSd);
-    ballBd.position.Set(x,y);
+    ballBd.position.Set(x, y);
 
 
     return world.CreateBody(ballBd);
 }
 
+function createJoin() {
+    var myBall = new createBall(world, 600, 150);
+    var jointDef = new b2RevoluteJointDef();
+    jointDef.anchorPoint.Set(400, 200);
+    jointDef.body1 = world.GetGroundBody();
+    jointDef.body2 = myBall;
+
+    return world.CreateJoint(jointDef);
+
+}
 
 function generarMundo() {
     createBall(world, 300, 120);
     createBox(world, 400, 50, 10, 20);
     createBox(world, 500, 50, 30, 5);
+    createJoin();
 }
